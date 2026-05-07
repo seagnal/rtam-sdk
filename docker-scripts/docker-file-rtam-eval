@@ -1,0 +1,41 @@
+# Use Ubuntu 22.04 (Jammy Jellyfish) as the base image
+ARG RTAM_VERSION="X.X-X-UNSPECIFIED"
+ARG PROXY
+
+FROM ubuntu:jammy
+ARG PROXY
+
+ARG RTAM_VERSION
+ENV ALL_PROXY=${PROXY}
+ENV all_proxy=${PROXY}
+ENV HTTPS_PROXY=${PROXY}
+ENV https_proxy=${PROXY}
+ENV HTTP_PROXY=${PROXY}
+ENV http_proxy=${PROXY}
+ENV NO_PROXY=localhost,127.0.0.1,0.0.0.0
+ENV no_proxy=localhost,127.0.0.1,0.0.0.0
+
+
+# Copy the debs folder and scripts
+COPY debs/*.deb /tmp/rtam/debs/
+COPY docker-scripts/configure.sh /tmp/rtam/configure.sh
+
+VOLUME /rtam
+WORKDIR /rtam
+
+# Update package lists
+RUN apt-get update
+
+# Install dpkg (if not already present)
+RUN apt-get install -y --no-install-recommends dpkg
+
+# Install net-tools
+RUN apt-get install -y net-tools
+
+# Make configure.sh executable and run it
+RUN echo ${RTAM_VERSION}
+RUN sh /tmp/rtam/configure.sh ${RTAM_VERSION}
+
+# Remove all temporary files 
+RUN rm -Rvf /tmp/rtam
+
