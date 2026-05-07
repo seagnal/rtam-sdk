@@ -1,0 +1,53 @@
+Import('bs')
+import os
+
+#if os.path.exists('libs/rtam/SConstruct-library.sub'):
+#  SConscript('libs/rtam/SConstruct-library.sub')
+
+if bs.init:
+  if bs['config'] in ['rtam-lib','rtam','rtam-obfuscated','rtam-service']:
+    bs.ConfigureAddLib(name = 'pthread', flags = '-pthread')
+    bs.ConfigureAddLib(name = 'boost_program_options', flags = '-lboost_program_options')
+    bs.ConfigureAddLib(name = 'matio', flags = '-lmatio')
+    bs.ConfigureAddLib(name = 'eigen', tool = 'pkg-config --cflags --libs eigen3')
+    bs.ConfigureAddLib(name = 'stdcppfs', flags = '-lstdc++fs')
+    if os.path.exists('libs/rtam/rtam') or os.path.exists('plugins/rtam/SConscript'):
+      bs.ConfigureAddLib(name = 'libusb', tool = 'pkg-config --cflags --libs libusb-1.0', check = 'libusb-1.0 >= 0.26')
+
+if not bs.init:
+################################################################################
+#### LIBRARIES
+################################################################################
+
+################################################################################
+#### FOLDERS
+################################################################################
+  if bs['config'] in ['rtam','rtam-obfuscated','rtam-service']:
+    bs.env_run['MASTER_DIRS'].append('plugins/interface/rtam')
+    bs.env_run['MASTER_DIRS'].append('tools/bml-parser')
+    bs.env_run['MASTER_DIRS'].append('plugins/rtam-eval')
+    bs.env_run['MASTER_DIRS'].append('plugins/rtam-eval-sample')
+    bs.env_run['MASTER_DIRS'].append('plugins/rtam-eval-linear')
+    bs.env_run['MASTER_DIRS'].append('master/src')
+
+  if bs['config'] in ['rtam-service']:
+    bs.env_run['MASTER_DIRS'].append('examples/simple-eval')
+
+
+  if bs['config'] in ['rtam','rtam-obfuscated','rtam-service']:
+    bs.env_run['MASTER_LIBS']['module'].append('plugin-rtam')
+    bs.env_run['MASTER_LIBS']['module'].append('plugin-rtam-eval')
+    #bs.env_run['MASTER_LIBS']['module'].append('plugin-rtam-eval-sample')
+    #bs.env_run['MASTER_LIBS']['module'].append('plugin-rtam-eval-linear')
+
+################################################################################
+#### CONFIGURATION FILE
+################################################################################
+
+  if bs['config'] == 'rtam-lib':
+    bs.env_run['ENV']['MASTER_CONFIG'] = 'UNUSED';
+  elif bs['config'] in ['rtam','rtam-obfuscated']:
+    bs.env_run['ENV']['MASTER_CONFIG'] = '#plugins/config/rtam-eval.xml';
+  elif bs['config'] in ['rtam-service']:
+    bs.env_run['ENV']['MASTER_CONFIG'] = '#plugins/config/rtam-service.xml';
+
