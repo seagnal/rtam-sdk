@@ -1,0 +1,34 @@
+#!/usr/bin/python
+Import('bs')
+import distro
+
+
+################################################################################
+#### DEPENDENCY
+################################################################################
+matio = False
+definesList = []
+if bs['config'] in ['rtam-service']:
+    if distro.info()['codename'] == 'jammy':
+      depends_bml_parser = "libboost-program-options1.74.0"
+    elif distro.info()['codename'] == 'focal':
+      depends_bml_parser = "libboost-program-options1.71.0"
+    elif distro.info()['codename'] == 'bionic':
+      depends_bml_parser = "libboost_program_options1.65.0"
+    elif distro.info()['codename'] == 'xenial':
+      depends_bml_parser = "libboost-program-options1.58.0"
+    else:
+      depends_bml_parser = "libboost_program_options1.54.0"
+
+sw_dict = {
+    'name':'rtam-eval-client',
+    'type':'program',
+    'sources': ['main.cc', 'rtam-eval.cc'],
+    'includes':['./'],
+    'defines':[],
+    'flags':['-Wfatal-errors'],
+    'libs':{'shared':['node','boost_program_options','pthread','dl'], 'static':['common-c','common-cpp'], 'module':['plugin-rtam']},
+    'deb' : {'depends':depends_bml_parser, 'description': bs['config']},
+}
+
+bs.AddSW(sw_dict)
