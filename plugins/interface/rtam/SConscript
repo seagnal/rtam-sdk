@@ -1,0 +1,20 @@
+#!/usr/bin/python
+Import('bs')
+
+
+sw_dict = {
+    'name':'plugin-rtam',
+    'type':'library',
+    'sources': [],
+    'includes':['./'],
+    'defines':[],
+    'flags':['-fno-var-tracking','-O3'],
+    'libs':{
+        'shared':['boost','core'],
+        'static':['node','common-c','common-cpp','common-math'],
+        'module':['plugin-transport-tcp']
+        },
+    'api':'api.hh'
+}
+
+bs.AddSW(sw_dict)

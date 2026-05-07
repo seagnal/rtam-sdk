@@ -1,0 +1,15 @@
+#!/usr/bin/python
+Import('bs')
+
+sw_dict = {
+    'name':'plugin-transport-rawsocket',
+    'type':'library',
+    'sources': [],
+    'includes':['./'],
+    'defines':[],
+    'flags':[],
+    'libs':{},
+    'install': []
+}
+
+bs.AddSW(sw_dict)
