@@ -1,0 +1,28 @@
+#!/usr/bin/python
+Import('bs')
+#
+
+sw_dict = {
+    'name':'plugin-rtam-eval-linear',
+    'type':'library',
+    'sources': ['*.cc','config/*.cc'],
+    'includes':['./', '#plugins', '#plugins/interface'],
+    #'rules':['prefix','case'],
+    'defines':[],
+    'libs':{
+        'shared':['eigen','boost','core'],
+        'static':['node','common-c','common-cpp'],
+'module':[
+    'plugin-transport-tcp',
+    'plugin-rtam'
+    ]},
+    'install': [
+        {'source':'#plugins/tools/launch-rtam-eval-linear.sh' , 'target':'usr/share/master'},
+        {'source':'#plugins/config/rtam-eval-linear.xml' , 'target':'usr/share/master/config'}
+        ],
+    'api':'api.hh',
+    'backlog':'backlog.xml',
+}
+print("START")
+bs.AddSW(sw_dict)
+print("STOP")
