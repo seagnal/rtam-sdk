@@ -1,0 +1,1 @@
+#SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="00:40:45:3a:72:f9", NAME="ethm"

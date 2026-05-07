@@ -1,0 +1,15 @@
+[Unit]
+Description=RTAM Service
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+Environment="LD_LIBRARY_PATH=/usr/share/master:/usr/lib/plugin-rtam:/usr/lib/master:/usr/lib/nvidia-384"
+Environment="MODULE_PATH=/usr/share/master"
+ExecStart=/bin/bash -c '/usr/bin/master --config /usr/share/master/config/rtam-service.xml'
+WorkingDirectory=/tmp
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

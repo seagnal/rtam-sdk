@@ -1,0 +1,20 @@
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    ethm:
+      match:
+        name: ethm
+      set-name: ethm
+      dhcp4: no
+      addresses: []
+      routes: []
+      nameservers:
+        search: []
+        addresses: []
+      macaddress: cc:aa:ee:00:00:00
+      mtu: 8192
+      addresses: [192.168.1.2/24]
+      routes:
+      - to: default
+        via: 192.168.1.1

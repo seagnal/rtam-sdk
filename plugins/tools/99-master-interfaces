@@ -1,0 +1,8 @@
+auto ethm
+iface ethm inet manual
+    hwaddress ether cc:aa:ee:00:00:00
+    mtu 8192
+    address 192.168.7.1
+    netmask 255.255.255.0
+    #post-up /sbin/ethtool -G ethm rx 4096 tx 4096
+    #post-up /sbin/ethtool -C ethm rx-usecs 250
