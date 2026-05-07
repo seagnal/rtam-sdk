@@ -1,0 +1,34 @@
+<master>
+  <!-- RTAM-EVAL -->
+  <node>
+    <type>rtam-eval</type>
+    <ports>
+
+      <port>
+        <name>rtam</name>
+        <url>
+          <tx>msg://rtam-cmd</tx>
+          <rx>msg://rtam-data</rx>
+        </url>
+      </port>
+    </ports>
+  </node>
+
+  <!-- RTAM -->
+  <node>
+    <type>rtam</type>
+    <ports>
+      <port>
+        <name>client</name>
+        <url>
+          <rx>msg://rtam-cmd</rx>
+          <tx>msg://rtam-data</tx>
+        </url>
+      </port>
+    </ports>
+    <settings>
+      <device>ethm</device>
+    </settings>
+  </node>
+
+</master>

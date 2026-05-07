@@ -1,0 +1,15 @@
+<master>
+  <!-- RTAM -->
+  <node>
+    <type>rtam</type>
+    <ports>
+      <port>
+        <name>client</name>
+        <url>unix://server:/tmp/rtam</url>
+      </port>
+    </ports>
+    <settings>
+      <device>ethm</device>
+    </settings>
+  </node>
+</master>
