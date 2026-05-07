@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  rtam-eval:
+    build:
+      context: .
+      dockerfile: docker-scripts/docker-file-rtam-eval
+      args:
+        RTAM_VERSION: "X.X-X-TOBESPECIFIEDONCOMMANDLINE"
+    volumes:
+    - ".:/rtam"
