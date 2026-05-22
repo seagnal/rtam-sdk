@@ -1,5 +1,6 @@
 debs/*.deb
 *.lic
+*.lic.*
 __out__
 *.deb
 master-*/
@@ -12,3 +13,4 @@ config.log
 .sconf_temp
 ids.json
 ids.xml
+hw/
