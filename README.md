@@ -1,6 +1,6 @@
 # Introduction
 
-A comprehensive Software Development Kit (SDK) for the RTAM Digitization Module is designed to empower developers to efficiently integrate, configure, and extend the capabilities of the module within their applications.
+A comprehensive Software Development Kit (SDK) for the **RTAM** Digitization Module is designed to empower developers to efficiently integrate, configure, and extend the capabilities of the module within their applications.
 
 # Usage instructions
 
@@ -27,9 +27,9 @@ use  --build-arg PROXY=xxxxx if you are behind a Proxy
     sudo bash ./plugins/tools/configure_device.sh enxXXXX 8192 1000
     ```
 where:
-- enxXXXX is your device
-- 8192 is the mtu (can be 1500 with no pulser or vga)
-- 1000 is the speed of the ling (can be 100 with SGMII HW)
+- **enxXXXX** is your device
+- **8192** is the mtu (can be 1500 with no pulser or vga)
+- **1000** is the speed of the ling (can be 100 with SGMII HW)
 
 * Perform simple acquisition (need root user)
     ```
@@ -63,9 +63,9 @@ or other procedure available on www.seagnal.fr on Digitizer web page.
     sudo bash ./plugins/tools/configure_device.sh enxXXXX 8192 1000
     ```
 where:
-- enxXXXX is your device
-- 8192 is the mtu (can be 1500 with no pulser or vga)
-- 1000 is the speed of the ling (can be 100 with SGMII HW)
+- **enxXXXX** is your device
+- **8192** is the mtu (can be 1500 with no pulser or vga)
+- **1000** is the speed of the ling (can be 100 with SGMII HW)
 
 * Perform simple acquisition (need root user)
     ```
