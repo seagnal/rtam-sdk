@@ -1,8 +1,8 @@
-# rtam-sdk
+# Introduction
 
 A comprehensive Software Development Kit (SDK) for the RTAM Digitization Module is designed to empower developers to efficiently integrate, configure, and extend the capabilities of the module within their applications.
 
-# Usage 
+# Usage instructions
 
 ## Run and use rtam eval board (with Docker)
 
@@ -77,7 +77,9 @@ where:
     sudo bash /rtam/docker-scripts/launch.sh rtam-eval-sample
     ```
 
-# Docker build procedure (with docker)
+# Build instructions
+
+## Docker build procedure (with docker)
 If you want to quickly modify and try rtam-eval plugin or rtam-eval-client in order to improve or customose processing of recored data. 
 * Generate the build docker image
     ```
@@ -98,7 +100,7 @@ If you want to quickly modify and try rtam-eval plugin or rtam-eval-client in or
 
 * You should obtain a deb file at the root of the repository
 
-# Build a custom alternative of plugin-rtam (without docker / ubuntu 22.04)
+## Build a custom alternative of plugin-rtam (without docker / ubuntu 22.04)
 1.	Install dependencies
 
 apt-get install -y --no-install-recommends dpkg net-tools scons pkg-config python3-dev libusb-1.0-0-dev libboost-program-options1.74-dev libboost-thread1.74-dev libboost-filesystem1.74-dev libmatio-dev python3-pyparsing python3-termcolor python3-reportlab g++-9 gcc-9 git build-essential python3-distro libeigen3-dev python3-gdbm libboost-regex1.74-dev
@@ -113,7 +115,7 @@ apt-get install -y --no-install-recommends dpkg net-tools scons pkg-config pytho
 4. You should obtain a deb file at the root of the repository
 
 
-# Updating RTAM HW procedure
+# Updating HW instructions
 
 1. Install Vivado Labtools from AMD website
     https://www.xilinx.com/support/download.html
