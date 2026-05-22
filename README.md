@@ -111,3 +111,56 @@ scons config=rtam plugin-rtam-eval.modInstall
 scons config=rtam plugin-rtam-sample.modInstall
 ```
 4. You should obtain a deb file at the root of the repository
+
+
+# Updating RTAM HW procedure
+
+1. Install Vivado Labtools from AMD website
+https://www.xilinx.com/support/download.html
+
+2. Download appropriate image from SEAGNAL shared folder
+https://drive.google.com/drive/folders/12f8NoMrpQ7SUSjALBGK4UAex_E9YD5xT?usp=sharing
+
+- BaseX Images
+    - AC COUPLED TRIGGER on P701: hw_config_1x_eval_tag_rtam-0.0-112-g0f1613d.zip
+    - DC COUPLED TRIGGER on P122: hw_config_1x_eval_sync4_tag_rtam-0.0-112-g0f1613d.zip
+
+- SGMII Images
+    - Coming soon
+
+
+3. Create a folder hw/ in this sdk
+```
+mkdir hw
+```
+
+4. Copy the hw_config....zip file in this folder hw/
+
+5. Unzip the file
+```
+cd hw
+unzip hw_config_eval-top_tag_abelo-0.0-20-g1b78b3f.zip
+```
+
+6. Go to the **tools** folder.  
+```
+cd tools
+```
+
+7. Connect the provided programming cable on P120 on RTAM Evaluation Board and on a USB port of your PC
+8. Power on the RTAM evaluation board.  
+9. Wait for the module to initialize (the LEDs will start blinking, indicating it’s ready).  
+11. Import Vivado environment (according to first step)
+```
+source /...some_path.../Vivado_Lab/2024.1/.settings64-Vivado_Lab.sh
+```
+10. Execute the command  
+  ```
+  bash tools/run_flash_rtam_hw.sh hw/ 
+  ```  
+11. Wait for the program to finish; you should see **“Operation Successful”**.  
+12. Press the **reset** button on the RTAM evaluation board and wait 10 seconds.  
+13. Disconnect the programming cable.  
+
+The board is now flashed and ready to use!
+
