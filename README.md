@@ -13,8 +13,8 @@ A comprehensive Software Development Kit (SDK) for the **RTAM** Digitization Mod
     ```
 
 * Download sw version from:
-    https://drive.google.com/drive/folders/1EsHkGC5Ct3mzHd5N81RAdkl6-Ldl9rlQ?usp=sharing
-    or other procedure available on www.seagnal.fr on Digitizer web page.
+    - https://drive.google.com/drive/folders/1EsHkGC5Ct3mzHd5N81RAdkl6-Ldl9rlQ?usp=sharing
+    - or other procedure available on www.seagnal.fr on Digitizer web page.
 
 * Build your docker image with appropriate rtam version parameter: (0.0-112-g0f1613d)
     ```
@@ -50,8 +50,8 @@ where:
     ```
 
 * Download sw version from:
-    https://drive.google.com/drive/folders/1EsHkGC5Ct3mzHd5N81RAdkl6-Ldl9rlQ?usp=sharing
-    or other procedure available on www.seagnal.fr on Digitizer web page.
+    - https://drive.google.com/drive/folders/1EsHkGC5Ct3mzHd5N81RAdkl6-Ldl9rlQ?usp=sharing
+    - or other procedure available on www.seagnal.fr on Digitizer web page.
 
 * Install all package with appropriate rtam version parameter ex: 0.0-96-g8dfa936
     ```
@@ -117,21 +117,20 @@ If you want to quickly modify and try rtam-eval plugin or rtam-eval-client in or
 
 # Updating HW instructions
 
-1. Install Vivado Labtools from AMD website
-    https://www.xilinx.com/support/download.html
+1. Install Vivado Labtools from AMD website:
+    - https://www.xilinx.com/support/download.html
 
 2. Download appropriate image from SEAGNAL shared folder:
-    https://drive.google.com/drive/folders/12f8NoMrpQ7SUSjALBGK4UAex_E9YD5xT?usp=sharing
-
-- **RTAM16/32** images
-    - **BaseX Images**
-        - AC COUPLED TRIGGER on P701: hw_config_1x_eval_tag_rtam-0.0-112-g0f1613d.zip
-        - DC COUPLED TRIGGER on P122: hw_config_1x_eval_sync4_tag_rtam-0.0-112-g0f1613d.zip
-
-    - **SGMII Images**
-        - Coming soon
-- **RTAM24/32** images
-        - Coming soon
+    - https://drive.google.com/drive/folders/12f8NoMrpQ7SUSjALBGK4UAex_E9YD5xT?usp=sharing
+        - **RTAM16/32** images
+            - **BaseX Images**
+                - AC COUPLED TRIGGER on P701: hw_config_1x_eval_tag_rtam-0.0-112-g0f1613d.zip
+                - DC COUPLED TRIGGER on P122: hw_config_1x_eval_sync4_tag_rtam-0.0-112-g0f1613d.zip
+        
+            - **SGMII Images**
+                - Coming soon
+        - **RTAM24/32** images
+                - Coming soon
 
 3. Create a folder hw/ in this sdk
     ```
