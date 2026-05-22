@@ -1,11 +1,7 @@
+#!/bin/bash
 ##################################################
 ####  FLASH HW - RTAM MODULE  ####################
 ##################################################
-# Ce script doit être dans le dossier 'tools' :  ~/RTAM/rtam-<version>/hw_config_1x_eval_tag_rtam-<version>-<extension>/tools"
-# Ce script doit être dans le dossier 'tools' :  ~/RTAM/despot-<version>/hw_config_eval-top_tag_despot-<version>-<extension>/tools"
-
-#!/bin/bash
-
 
 MAC=$1
 if [ -z "$MAC" ]; then
@@ -17,16 +13,27 @@ echo ""
 
 
 CURRENT_DIR=$(pwd)
+PROJECT_DIR="../project"
+
 HW_CONFIG_DIR=$(dirname "$CURRENT_DIR")
 echo " # HW CONFIG directory : $HW_CONFIG_DIR"
 echo " # Current directory   : $CURRENT_DIR"
 
 echo ""
 
-# Vérifie qu'on est bien dans un dossier "tools" de RTAM
-if [[ "$CURRENT_DIR" != *"/RTAM/"*"/tools" ]]; then
-    echo -e "\n/!\ Erreur : ce script doit être lancé depuis un dossier 'tools' : ~/RTAM/rtam-<version>/hw_config_1x_eval_tag_rtam-<version>-<extension>/tools"
-    echo -e "/!\ Erreur : --------------------------------------------------- : ~/RTAM/despot-<version>/hw_config_eval-top_tag_rtam-<version>-<extension>/tools\n"
+# Compte les fichiers .tcl
+tcl_count=$(find "$CURRENT_DIR" -type f -name '*.tcl' | wc -l)
+project_count=$(ls -d "$PROJECT_DIR"/*/ | wc -l)
+
+# Test : on attend *au moins* un fichier
+if [ "$tcl_count" -lt 1 ]; then
+    echo "❌ Erreur : aucun fichier .tcl trouvé dans '$CURRENT_DIR'." >&2
+    exit 1
+fi
+
+# Test : on attend *au moins* un fichier
+if [ "$project_count" -lt 1 ]; then
+    echo "❌ Erreur : aucun fichier .tcl trouvé dans '$PROJECT_DIR'." >&2
     exit 1
 fi
 
@@ -39,7 +46,6 @@ echo " # TCL FILE NAME : $TCL_NAME"
 echo ""
 
 # Récupérer le nom du projet dynamiquement
-PROJECT_DIR="../project"
 PROJECT_NAME=$(ls -d "$PROJECT_DIR"/*/ | head -1 | xargs basename)
 PROJECT_DIR="$PROJECT_DIR/$PROJECT_NAME"
 echo " # PROJECT directory : $PROJECT_DIR"
