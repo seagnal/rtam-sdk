@@ -47,6 +47,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-distro
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libeigen3-dev
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-gdbm
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libboost-regex1.74-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y swig
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y octave-dev
 
 # Specify GCC-9 usage
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
