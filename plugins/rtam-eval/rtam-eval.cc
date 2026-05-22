@@ -118,6 +118,8 @@ CT_RTAM_EVAL::CT_RTAM_EVAL(void) : CT_CORE() {
 	std::cout << "TEST_ACQ_CONTINUOUS=[0/1]        : Acquisition en mode continu (necessaire avec TEST_TRIGGER_DURATION = 0)" << std::endl;
 	std::cout << "TEST_FULL_SCALE=[1/1000]         : Choix de la pleine échelle de numérisation (mV)" << std::endl;
 	std::cout << "TEST_NO_TX=[0/1]                 : Desactive l'émission" << std::endl;
+	std::cout << "TEST_NO_PULSER=[0/1]             : Desactive l'usage des pulseurs" << std::endl;
+	std::cout << "TEST_NO_VGA=[0/1]                : Desactive l'usage des vga" << std::endl;
 	std::cout << "TEST_NO_IIC=[0/1]                : Desactive la lecture IIC" << std::endl;
 	std::cout << "TEST_SET_MASTER=[Num]            : ID de la carte MASTER" << std::endl;
   std::cout << "DEBUG_ON_RUNNING=[0/1]           : Active la lecture du lien de debug pendant l'acquisition" << std::endl;

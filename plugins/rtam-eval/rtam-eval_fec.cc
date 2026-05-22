@@ -77,7 +77,6 @@ int CT_RTAM_EVAL::f_event_rtam(CT_GUARD<CT_PORT_NODE> const & in_rpc_node) {
     break;
   }
         case rtam:: E_ID_PING: {
-    _DBG << "+++++++++++++++++++++++++++ PING received";
     // faire un calcul de debit
             f_rtam_handle_ping(in_rpc_node);
     //cpt++;
@@ -188,6 +187,11 @@ int CT_RTAM_EVAL::f_rtam_init() {
     }
   }
 
+  bool b_init_pulser = false;
+  if(getenv("TEST_NO_PULSER") && atoi(getenv("TEST_NO_PULSER"))) {
+    b_init_pulser = false;
+  }
+
   switch(_e_antenna_config) {
     case E_ANTENNA_CONFIG_MAQUETTE16:
     case E_ANTENNA_CONFIG_MAQUETTE24:
@@ -252,13 +256,15 @@ int CT_RTAM_EVAL::f_rtam_init() {
               pc_subsyst->add(rtam::E_ID_HW_UID)->set_data<uint64_t>(i_id_board_pwm);
               pc_subsyst->add(rtam::E_ID_HW_INTERNAL_ID)->set_data<uint32_t>(0);
             }
-            for(uint8_t i_tx=0; i_tx<_i_rtam_nb_tx; i_tx++) {
-              {
-                auto pc_subsyst = pc_syst->add(rtam::E_ID_INIT_HW);
-                pc_subsyst->add(rtam::E_ID_HW_TYPE)->set_data<uint8_t>(rtam::E_SYST_TYPE_PULSER);
-                pc_subsyst->add(rtam::E_ID_HW_UID)->set_data<uint64_t>(i_id_board_pwm);
-                pc_subsyst->add(rtam::E_ID_HW_INTERNAL_ID)->set_data<uint32_t>(0);
-                pc_subsyst->add(rtam::E_ID_HW_CHANNEL_NUMBER)->set_data<uint32_t>(0);
+            if(b_init_pulser) {
+              for(uint8_t i_tx=0; i_tx<_i_rtam_nb_tx; i_tx++) {
+                {
+                  auto pc_subsyst = pc_syst->add(rtam::E_ID_INIT_HW);
+                  pc_subsyst->add(rtam::E_ID_HW_TYPE)->set_data<uint8_t>(rtam::E_SYST_TYPE_PULSER);
+                  pc_subsyst->add(rtam::E_ID_HW_UID)->set_data<uint64_t>(i_id_board_pwm);
+                  pc_subsyst->add(rtam::E_ID_HW_INTERNAL_ID)->set_data<uint32_t>(0);
+                  pc_subsyst->add(rtam::E_ID_HW_CHANNEL_NUMBER)->set_data<uint32_t>(0);
+                }
               }
             }
             {
@@ -305,7 +311,8 @@ int CT_RTAM_EVAL::f_rtam_init() {
 					pc_subsyst->add(rtam::E_ID_HW_UID)->set_data<uint64_t>(_vi_rtam_boards[i_id_board]);
 					pc_subsyst->add(rtam::E_ID_HW_INTERNAL_ID)->set_data<uint32_t>(0);
             }
-            {
+          
+          if(b_init_pulser) {
 					auto pc_subsyst = pc_syst->add(rtam::E_ID_INIT_HW);
 					pc_subsyst->add(rtam::E_ID_HW_TYPE)->set_data<uint8_t>(rtam::E_SYST_TYPE_PULSER);
 					pc_subsyst->add(rtam::E_ID_HW_UID)->set_data<uint64_t>(_vi_rtam_boards[i_id_board]);
@@ -548,11 +555,25 @@ CT_GUARD<CT_PORT_NODE> CT_RTAM_EVAL::f_rtam_config_init(void) {
 
   /* Set Sampling samples */
   uint32_t i_nb_sample = f_duration*_f_fs/float(i_decim);
+
+  if (getenv("TEST_NB_SAMPLE") != NULL) {
+    i_nb_sample = atoi(getenv("TEST_NB_SAMPLE"));
+  }
+
   if (i_nb_sample >= pow(2,19)) { // NB_SAMPLE is limited to 2**19-1 into FPGA
     _CRIT << "Nb samples was " << i_nb_sample << " and have been limited to 524287 (2**19-1) !";
     i_nb_sample = pow(2,19)-1;
   }
-	pc_node->add(rtam::E_ID_NB_SAMPLE)->set_data<uint32_t>(round(i_nb_sample/124)*124);
+  {
+    uint32_t i_spp = 124;
+    if (getenv("TEST_SPP") != NULL) {
+      i_spp = atoi(getenv("TEST_SPP"));
+    }
+
+    i_nb_sample = round(i_nb_sample/i_spp)*i_spp;
+
+	  pc_node->add(rtam::E_ID_NB_SAMPLE)->set_data<uint32_t>(i_nb_sample);
+  }
 	_CRIT << " Fs: " << _f_fs << " Duration: " << f_duration << " Nb samples: " << i_nb_sample << " Decim: " << i_decim << " Freq cutoff: " << pc_node->get(rtam::E_ID_FREQ_CUTOFF)->get_data<double>();
 
   /* Set fullscale of ADC */
@@ -691,7 +712,9 @@ CT_GUARD<CT_PORT_NODE> CT_RTAM_EVAL::f_rtam_config_init(void) {
   }
 
   /* Set vga values */
-  {
+  if(getenv("TEST_NO_VGA") && atoi(getenv("TEST_NO_VGA"))) {
+    _DBG << "NO VGA";
+  } else {
 		auto pc_dac = pc_node->add(rtam::E_ID_DAC);
 
     uint32_t i_step = 3000;
@@ -782,7 +805,12 @@ int CT_RTAM_EVAL::f_rtam_config(void) {
 
 void CT_RTAM_EVAL::f_rtam_handle_ping(CT_GUARD<CT_PORT_NODE> const & in_rpc_node) {
 	CT_GUARD_LOCK c_guard(_c_rtam_lock);
-  int ec;
+  int ec;		
+  uint64_t i_ping_uid = in_rpc_node->get(rtam::E_ID_TRIGGER_UID)->get_data<uint64_t>();
+  uint32_t i_system_uid = in_rpc_node->get(rtam::E_ID_SYSTEM_UID)->get_data<uint32_t>();
+  
+
+    _DBG << "+++++++++++++++++++++++++++ PING:" << std::hex << i_ping_uid << " SYS:"<< i_system_uid ;
 
 	_i_rtam_time_last_ping_received = f_get_time_ns64();
 	if(_e_rtam_state_current == E_RTAM_STATE_CONFIGURED) {

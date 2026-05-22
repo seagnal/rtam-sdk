@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  rtam-build:
+    build:
+      context: .
+      dockerfile: docker-scripts/docker-file-rtam-build
+      args:
+        UID: 1000
+        GID: 1000
+      
+    volumes:
+    - ".:/rtam"
+    - /tmp:/tmp:rw

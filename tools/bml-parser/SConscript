@@ -1,0 +1,46 @@
+#!/usr/bin/python
+Import('bs')
+import distro
+
+################################################################################
+#### DEPENDENCY
+################################################################################
+matio = False
+definesList = []
+
+if distro.info()['codename'] == 'focal':
+  depends_bml_parser = "libboost-program-options1.71.0"
+  definesList = []
+  matio = False
+elif distro.info()['codename'] == 'bionic':
+  depends_bml_parser = "libboost_program_options1.65.0"
+  definesList = ['FF_MATIO']
+  matio = True
+elif distro.info()['codename'] == 'jammy':
+  depends_bml_parser = "libboost-program-options1.74.0"
+  definesList = ['FF_MATIO']
+  matio = True
+elif distro.info()['codename'] == 'xenial':
+  depends_bml_parser = "libboost-program-options1.58.0"
+  definesList = []
+  matio = False
+else:
+  depends_bml_parser = "libboost_program_options1.54.0"
+  definesList = []
+  matio = False
+
+sw_dict = {
+    'name':'bml-parser',
+    'type':'program',
+    'sources': ['main.cc'],
+    'includes':['./'],
+    'defines':definesList,
+    'flags':['-O3'],
+    'libs':{'shared':['node','boost_program_options','stdcppfs'], 'static':['common-c','common-cpp']},
+    'deb' : {'depends':depends_bml_parser, 'description': bs['config']},
+}
+
+if matio:
+    sw_dict['libs']['shared'].append('matio')
+
+bs.AddSW(sw_dict)

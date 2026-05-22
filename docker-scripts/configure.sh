@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-version=$1
+pathdebs=$1
+version=$2
 
 echo "RTAM_EVAL_VERSION : $version"
 
@@ -10,13 +11,13 @@ apt-get install -y libboost-program-options1.74.0 libboost-thread1.74.0 libboost
 
 echo "Installing all rtam packages"
 
-cd /tmp/rtam/debs
+cd $pathdebs
 dpkg -i master-standalone-$version-amd64-jammy.deb
 dpkg -i plugin-rtam-rtam-$version-amd64-jammy.deb
 dpkg -i plugin-rtam-eval-rtam-$version-amd64-jammy.deb
-dpkg -i bml-parser-rtam-$version-amd64-jammy.deb
+dpkg -i plugin-rtam-eval-sample-$version-amd64-jammy.deb
+dpkg -i bml-parser-rtam-tools-$version-amd64-jammy.deb
 
-#FIXME dpkg -i plugin-rtam-eval-sample-$version-amd64-jammy.deb
 #FIXME dpkg -i plugin-rtam-eval-linear-$version-amd64-jammy.deb
 #FIXME dpkg -i rtam-eval-client-rtam-service-$version-amd64-jammy.deb
 

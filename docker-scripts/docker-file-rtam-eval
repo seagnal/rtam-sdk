@@ -34,7 +34,7 @@ RUN apt-get install -y net-tools
 
 # Make configure.sh executable and run it
 RUN echo ${RTAM_VERSION}
-RUN sh /tmp/rtam/configure.sh ${RTAM_VERSION}
+RUN sh /tmp/rtam/configure.sh /tmp/rtam/debs ${RTAM_VERSION}
 
 # Remove all temporary files 
 RUN rm -Rvf /tmp/rtam

@@ -1,0 +1,64 @@
+FROM ubuntu:jammy
+ARG PROXY
+ARG UID
+ARG GID
+
+# Proxy settings
+ENV ALL_PROXY=${PROXY}
+ENV all_proxy=${PROXY}
+ENV HTTPS_PROXY=${PROXY}
+ENV https_proxy=${PROXY}
+ENV HTTP_PROXY=${PROXY}
+ENV http_proxy=${PROXY}
+ENV NO_PROXY=localhost,127.0.0.1,0.0.0.0
+ENV no_proxy=localhost,127.0.0.1,0.0.0.0
+
+# Copy the debs folder and scripts
+VOLUME /rtam
+
+# Default path for records
+VOLUME /tmp
+
+# Git mounted folder
+WORKDIR /rtam
+
+# Update package lists
+RUN apt-get update
+
+# Install dpkg (if not already present)
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends dpkg
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y scons
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y pkg-config
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libusb-1.0-0-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libboost-program-options1.74-dev 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libboost-thread1.74-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libboost-filesystem1.74-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libmatio-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pyparsing
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-termcolor
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-reportlab
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y g++-9
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y gcc-9
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-distro
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libeigen3-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-gdbm
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libboost-regex1.74-dev
+
+# Specify GCC-9 usage
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+
+# Create user in container
+RUN addgroup -gid $GID appgroup
+RUN adduser -uid $UID appuser --ingroup appgroup
+
+# Add git for root (.run)
+RUN git config --global --add safe.directory /rtam
+
+USER appuser
+# Add git for user (.install)
+RUN git config --global --add safe.directory /rtam

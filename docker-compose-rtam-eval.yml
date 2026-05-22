@@ -9,3 +9,4 @@ services:
         RTAM_VERSION: "X.X-X-TOBESPECIFIEDONCOMMANDLINE"
     volumes:
     - ".:/rtam"
+    - /tmp:/tmp:rw
