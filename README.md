@@ -102,9 +102,9 @@ If you want to quickly modify and try rtam-eval plugin or rtam-eval-client in or
 
 ## Build a custom alternative of plugin-rtam (without docker / ubuntu 22.04)
 1.	Install dependencies
-
-apt-get install -y --no-install-recommends dpkg net-tools scons pkg-config python3-dev libusb-1.0-0-dev libboost-program-options1.74-dev libboost-thread1.74-dev libboost-filesystem1.74-dev libmatio-dev python3-pyparsing python3-termcolor python3-reportlab g++-9 gcc-9 git build-essential python3-distro libeigen3-dev python3-gdbm libboost-regex1.74-dev
-
+    ```
+    apt-get install -y --no-install-recommends dpkg net-tools scons pkg-config python3-dev libusb-1.0-0-dev libboost-program-options1.74-dev libboost-thread1.74-dev libboost-filesystem1.74-dev libmatio-dev python3-pyparsing python3-termcolor python3-reportlab g++-9 gcc-9 git build-essential python3-distro libeigen3-dev python3-gdbm libboost-regex1.74-dev
+    ```
 2. adapt according to your need plugins/rtam-eval or plugins/rtam-eval-sample contents
 
 3.	Build the plugins
